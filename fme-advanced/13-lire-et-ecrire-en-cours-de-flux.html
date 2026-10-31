@@ -1,0 +1,218 @@
+<title>Transformers de workflow FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>En cours de flux</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">FeatureReader, FeatureWriter et connecteurs</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Workflow transformer</dt><dd>Un transformer qui lit ou écrit des données <span class="hl">en plein milieu</span> du flux, à la place d'un reader ou writer.</dd></div><div><dt>Initiator</dt><dd>La feature qui entre dans le FeatureReader et déclenche la lecture.</dd></div><div><dt>TempPathnameCreator</dt><dd>Crée un dossier temporaire supprimé à la fin du workspace.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Les workflow transformers</h2><div class="item"><p class="q">Les <span class="hl">quatre familles</span></p><pre class="code">FeatureReader, FeatureWriter : formats FME
+DropboxConnector, GoogleDriveConnector, SalesforceConnector, SlackConnector : services web
+AttributeFileReader, AttributeFileWriter : lire et écrire des attributs
+JMSSender/Receiver, SQSConnector, TCPIPSender/Receiver : paquets de données</pre><p class="note">AttributeFileReader lit le contenu d'un fichier dans un attribut (texte ou blob binaire). AttributeFileWriter écrit le contenu d'un attribut dans un fichier.</p></div><p class="note">L'avantage : lire ou écrire au milieu d'un flux, pas seulement au début ou à la fin. Les connecteurs exposent déjà les bons paramètres, ce qui est plus rapide et facile que d'appeler l'API directement avec le HTTPCaller. Pour envoyer des données sensibles de toute taille vers l'écosystème AWS, c'est le SQSConnector. Si un appel d'API renvoie un fichier binaire dans _response_body, l'AttributeFileWriter l'enregistre en local.</p></section>
+<section class="box c-mint"><h2><span class="n">3</span>Le FeatureReader</h2><div class="item"><p class="q">Le <span class="hl">déclenchement</span></p><p class="note">Toute feature qui entre par l'initiator déclenche la lecture. Le dataset est lu autant de fois qu'il y a de features dans l'initiator.</p></div><div class="item"><p class="q">Les <span class="hl">ports de sortie</span></p><pre class="code">Un port par feature type (par défaut)
+Single Output Port : tout par &lt;Generic&gt;
+&lt;Schema&gt; : une feature de schéma par feature type
+&lt;Generic&gt; : features sans port nommé
+&lt;Rejected&gt; : features invalides (dataset inexistant, filtre spatial sur feature sans géométrie)</pre><p class="note">Le port de l'initiator renvoie l'original avec l'attribut _matched_records (nombre de features lues pour cet initiator). Avec Single Output Port, on retrouve le feature type avec fme_feature_type.</p></div><div class="item"><p class="q">Dataset par <span class="hl">attribut</span></p><p class="note">Cas typique : un shapefile avec l'index des orthophotos, et un FeatureReader GeoTIFF qui lit le fichier indiqué par un attribut. S'il y a plusieurs features avec un chemin de dataset, le paramètre Dataset du FeatureReader contrôle ce qui est lu.</p></div><div class="item"><p class="q">Le <span class="hl">filtre spatial</span></p><p class="note">Basé sur la géométrie. On peut aussi exécuter des requêtes sur une base de données (SQL ou Cypher).</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Le FeatureWriter</h2><div class="item"><p class="q">Tout dans un <span class="hl">dialogue</span></p><p class="note">Tous les paramètres et la définition du schéma d'un writer sont dans un seul dialogue. Le bouton plus ajoute des feature types. Le port de sortie se définit à la main ou s'ajoute en connectant l'entrée.</p></div><div class="item"><p class="q">Les <span class="hl">sorties</span></p><p class="note">Elles se connectent à d'autres transformers. Les features du FeatureWriter portent l'attribut _dataset, le chemin du fichier écrit.</p></div><div class="item"><p class="q">Avec le <span class="hl">TempPathnameCreator</span></p><p class="note">Cas courant : écrire un dataset temporaire avant de le téléverser. Le dossier est supprimé après le run (pas d'accumulation), sur FME Form comme sur FME Flow. Sur FME Flow, le paramètre FME_SHAREDRESOURCE_TEMP écrit dans le stockage temporaire, nettoyé selon la config.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Exercice : les orthophotos</h2><div class="item"><p class="q">Le <span class="hl">scénario</span></p><p class="note">Un dossier d'orthophotos GeoTIFF dont on extrait des rasters individuels couvrant plusieurs quartiers du centre-ville. On configure un FeatureReader avec plusieurs initiators, un FeatureWriter et un connector transformer.</p></div><p class="note">Le FTPCaller n'accepte pas Web Connection comme type d'authentification, seulement None/Anonymous, Password et ssh-agent/pageant (SFTP seulement).</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>FeatureReader et FeatureWriter lisent et écrivent n'importe où dans le flux.</li><li>Une feature dans l'initiator déclenche une lecture complète du dataset.</li><li>Les ports de sortie du FeatureReader : feature types, &lt;Generic&gt;, &lt;Schema&gt;, &lt;Rejected&gt;.</li><li>Le TempPathnameCreator évite l'accumulation de données temporaires.</li><li>Un connecteur est plus simple que le HTTPCaller pour parler à un service web.</li></ul></section>
+<p class="closing">Lire ou écrire quand tu veux, pas seulement au début ou à la fin.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-advanced/read-and-write-your-data-mid-workflow-2025-1" target="_blank" rel="noopener">FME Form Advanced</a> · EllaDesCartes</footer>
+</main>

@@ -1,0 +1,215 @@
+<title>Custom transformers flexibles FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Custom flexibles</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Attributs et paramètres dans un custom transformer</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Attribute References</dt><dd>Le paramètre qui décide comment le custom transformer gère les attributs en entrée.</dd></div><div><dt>Handle with Published Parameters</dt><dd>Réglage automatique : chaque attribut référencé dedans est géré à l'extérieur.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Attributs et paramètres en entrée</h2><div class="item"><p class="q">Par <span class="hl">attributs</span></p><p class="note">Beaucoup de paramètres de transformers acceptent des attributs. Si l'attribut n'est pas disponible, le transformer est Incomplete.</p></div><div class="item"><p class="q">Par <span class="hl">paramètres utilisateur</span></p><p class="note">Le problème est la duplication : si chaque instance utilise le même paramètre, toutes reçoivent la même entrée. Il faut un mécanisme pour entrer des valeurs différentes par instance.</p></div></section>
+<section class="box c-mint"><h2><span class="n">3</span>La gestion automatique</h2><div class="item"><p class="q">Les <span class="hl">paramètres utilisateur</span></p><p class="note">Quand un transformer avec un paramètre utilisateur publié est mis dans un custom transformer, le paramètre passe du navigateur principal à celui du custom. L'utilisateur n'est plus sollicité à l'exécution, et on peut le régler différemment pour chaque instance. S'il faut une saisie au runtime, on publie le paramètre (alors partagé, même valeur).</p></div><div class="item"><p class="q">Les <span class="hl">attributs</span></p><p class="note">À la création, Attribute References vaut Handle with Published Parameters : chaque attribut référencé dedans est supporté dehors, avec un paramètre utilisateur par attribut. Dedans c'est un nom d'attribut, dehors un paramètre utilisateur. Dans un endroit sans l'attribut requis, le transformer est incomplet, mais l'auteur peut choisir un attribut disponible.</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Après la création</h2><div class="item"><p class="q">Les <span class="hl">attributs entrants</span></p><p class="note">Clic sur le port d'entrée et exposer un lien d'attribut externe vers le custom : les attributs exposés deviennent des paramètres utilisateur sur le canevas principal.</p></div><div class="item"><p class="q">Les <span class="hl">attributs sortants</span></p><p class="note">Clic sur le port de sortie pour cacher ceux qu'on ne veut pas, par exemple ceux d'un calcul intermédiaire.</p></div><div class="item"><p class="q">Le mode <span class="hl">Fix Manually</span></p><p class="note">Avec Fix Manually (Advanced), le workspace ne tourne pas par défaut, car aucun attribut n'est disponible dans le custom. On ne peut plus choisir d'attribut depuis l'onglet principal. L'auteur doit exposer les attributs à la main. Le custom ne marche pas sur un autre schéma, sauf si les attributs exposés sont aussi publiés.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Les bonnes pratiques</h2><div class="item"><p class="q"><span class="hl">Simple</span></p><p class="note">Les paramètres rendent les custom transformers plus puissants mais plus complexes : aussi simples que possible. Si le nombre de choix devient énorme, on divise le custom transformer.</p></div><div class="item"><p class="q">Les <span class="hl">outils</span></p><pre class="code">Les types de paramètres valident la saisie (parfois il faut ajouter la validation au workspace)
+La visibilité conditionnelle imbrique les fonctions
+Moins de décisions de haut niveau
+Les Group Boxes cachent la complexité (Parameter Manager)</pre></div></section>
+<section class="box c-mint"><h2><span class="n">6</span>Exercice : une densité plus générique</h2><div class="item"><p class="q">Le <span class="hl">nom</span> de sortie</p><p class="note">Deux instances produisent toutes deux DensityResult. Dans l'onglet du custom, ExpressionEvaluator, on crée un paramètre utilisateur pour le nom. L'option apparaît alors sur le custom du canevas principal, et on peut les mettre en série.</p></div><div class="item"><p class="q">L'<span class="hl">attribut d'entrée</span></p><p class="note">Onglet custom, ouvrir Input, ajouter Population et décocher les autres attributs externes.</p></div><div class="item"><p class="q">Les <span class="hl">unités</span></p><p class="note">Nouveau paramètre via le Navigator (le menu déroulant), utilisé comme multiplicateur dans l'AreaCalculator.</p></div><div class="item"><p class="q">La <span class="hl">pondération</span></p><p class="note">Un RandomNumberGenerator sur le canevas principal, exposé dans Input Parameter du custom. On rend le weightedattribute requis et on efface la valeur par défaut. Tester après l'aire : si le poids est supérieur à 0, on l'utilise dans l'ExpressionEvaluator.</p></div><p class="note">On utilise l'attribut dans l'expression, pas le paramètre publié : FME gère ce comportement automatiquement, avec une fonctionnalité cachée qui remplace l'attribut. Autre option : créer directement un paramètre Attribute Name dans le custom.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Handle with Published Parameters rend le custom transformer utilisable sur n'importe quel schéma.</li><li>Un paramètre publié dans un custom reste dans le dialogue du custom.</li><li>Expose les attributs entrants dans le port d'entrée, cache les sortants dans le port de sortie.</li><li>Fix Manually est avancé : l'auteur doit tout exposer lui-même.</li><li>Garde les paramètres simples, divise si ça devient trop gros.</li></ul></section>
+<p class="closing">Un custom transformer flexible, c'est un outil que les autres osent utiliser.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-advanced/design-modular-and-maintainable-workspaces-with-custom-transformers-2025-1" target="_blank" rel="noopener">FME Form Advanced</a> · EllaDesCartes</footer>
+</main>
