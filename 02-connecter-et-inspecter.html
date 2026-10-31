@@ -1,0 +1,215 @@
+<title>Connecter et inspecter FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Connecter</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Lire, écrire et inspecter ses données</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Dataset</dt><dd>Le fichier lu ou écrit, par exemple un classeur Excel.</dd></div><div><dt>Feature type</dt><dd>Un sous-ensemble d'enregistrements : une feuille, une couche, une table.</dd></div><div><dt>Feature</dt><dd>Une ligne, la plus petite pièce d'une traduction FME.</dd></div><div><dt>Attribut</dt><dd>Une colonne, l'information qui décrit la feature.</dd></div><div><dt>Workspace</dt><dd>Le contenu du canevas et du Navigator. Il garde la définition de la traduction, pas les données.</dd></div><div><dt>Donnée spatiale</dt><dd>Elle contient la <span class="hl">géométrie</span> (l'emplacement) et des attributs (la description). Format vecteur (point, ligne, polygone) ou raster (valeur d'un phénomène continu, comme l'altitude).</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Connaître l'interface</h2><dl><div><dt>Menu et barre d'outils</dt><dd>Les actions courantes.</dd></div><div><dt>Navigator</dt><dd>Vue en plan du workspace, avec la liste des readers et writers.</dd></div><div><dt>Canevas</dt><dd>On construit le flux par glisser-déposer.</dd></div><div><dt>Transformer Gallery</dt><dd>La liste des transformers.</dd></div><div><dt>Visual Preview</dt><dd>Vue tableau et vue carte des données.</dd></div><div><dt>Feature Information</dt><dd>Tout ce que FME sait sur une feature.</dd></div></dl><p class="note">Tu affiches ou masques chaque fenêtre dans le menu View, puis Windows.</p></section>
+<section class="box c-mint"><h2><span class="n">3</span>Lire des données</h2><div class="item"><p class="q">Créer un workspace, puis ajouter un <span class="hl">reader</span></p><pre class="code">Reader : Microsoft Excel</pre><p class="note">Quick Add liste tous les formats et transformers du FME Hub, y compris ceux des utilisateurs. Le paramètre Dataset accepte un ou plusieurs chemins, des URL ou une connexion à un service web.</p></div><div class="item"><p class="q">Régler les <span class="hl">paramètres</span> du reader</p><p class="note">Dans Excel, longitude et latitude sont des nombres. FME les lit comme x_coordinate et y_coordinate.</p></div><div class="item"><p class="q">Choisir le <span class="hl">système de coordonnées</span></p><pre class="code">LL84 = WGS84 = EPSG:4326</pre><p class="note">FME le lit tout seul s'il est dans les données, sinon il vaut Unknown. Ce n'est pas obligatoire, mais il faut le renseigner pour un fond de carte ou pour comparer des données. Les trois noms ci-dessus désignent le même système (GPS).</p></div><div class="item"><p class="q"><span class="hl">Enregistrer</span>, puis <span class="hl">lancer</span> le workspace</p><p class="note">La fenêtre de paramètres au lancement permet de relancer avec d'autres valeurs, par exemple pour convertir plusieurs jeux de données avec le même workspace. On la désactive avec le triangle à côté de Run. Dans le Translation Log, le nom du transformer est cliquable : il mène à l'élément du canevas qui produit le message.</p></div><div class="item"><p class="q"><span class="hl">Voir</span> les données</p><p class="note">L'icône verte est la copie locale des features (le feature cache). Un clic l'affiche dans la Visual Preview. Le FME Data Inspector offre la même vue en plein écran.</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Écrire des données</h2><div class="item"><p class="q">Ajouter un <span class="hl">writer</span></p><pre class="code">Esri geodatabase (File Geodb Open API) [Writer]</pre><p class="note">Ce writer est utilisable par tout le monde.</p></div><div class="item"><p class="q">Remplir le <span class="hl">formulaire</span></p><p class="note">Pour un reader, Dataset désigne les données à lire. Pour un writer, c'est le fichier ou le dossier où FME crée ou met à jour les données. Cocher Overwrite existing database pour écraser à chaque lancement. En mode Automatic, le writer reprend le schéma de ce qu'on lui connecte.</p></div><div class="item"><p class="q"><span class="hl">Relier</span> le reader au writer feature type, puis régler la géométrie</p><pre class="code">User Attributes &gt; Spatial definition &gt; Geometry Type : geodb_point</pre></div><div class="item"><p class="q">Lancer une <span class="hl">partie</span> du flux</p><p class="note">La petite flèche verte lance seulement une section du workspace.</p></div><div class="item"><p class="q">Rassembler <span class="hl">plusieurs flux</span> dans un seul writer</p><p class="note">Des flux reliés à la même entrée s'accumulent (union). Pour garder un seul feature type writer : modifie l'un d'eux (double-clic, nom, géométrie), relie tous les flux (par exemple tous les quartiers), supprime les autres writers, lance, puis vérifie que les données sont dans le même dossier.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Documenter son workspace</h2><div class="item"><p class="q">Ajouter un <span class="hl">bookmark</span> pour organiser en sections logiques</p><pre class="code">Ctrl+B</pre></div><div class="item"><p class="q">Ajouter une <span class="hl">annotation</span> sur un reader, un writer ou un transformer</p><pre class="code">Ctrl+K</pre><p class="note">Tu peux aussi faire un clic droit sur l'objet.</p></div></section>
+<section class="box c-mint"><h2><span class="n">6</span>Inspecter les données</h2><div class="item"><p class="q">Voir les <span class="hl">données écrites</span></p><p class="note">Clique sur View written data sur le writer. Par le Navigator, un clic droit ouvre toute la geodatabase, avec toutes les couches.</p></div><div class="item"><p class="q">Ajouter un <span class="hl">fond de carte</span></p><p class="note">Clic droit sur la carte de la preview. Les données doivent avoir un système de coordonnées, stocké ou explicite.</p></div><div class="item"><p class="q">Explorer la <span class="hl">Visual Preview</span></p><p class="note">La géométrie est en vue graphique, les attributs en vue tableau. Le bouton toggle automatic inspect on selection garde l'affichage de la sélection. Tu peux changer la couleur et la taille des points. La preview sert à visualiser, ce n'est pas un vrai outil SIG pour faire des cartes.</p></div><div class="item"><p class="q">Lire le <span class="hl">tableau</span></p><p class="note">Après le lancement, la quantité s'affiche dans le panneau. La colonne OBJECTID est ajoutée car une geodatabase Esri exige un entier unique non nul pour identifier chaque ligne. Un clic sur le nom d'une colonne la trie par ordre alphabétique. La barre de recherche en bas filtre, et le bouton colonnes en masque.</p></div><div class="item"><p class="q">Colonne remplie de <span class="hl">NULL</span> ?</p><p class="note">Regarde le writer : un attribut en rouge n'est relié à aucune source. Souvent, le nom contenait des espaces dans le reader et ils deviennent des _ dans le writer.</p></div></section>
+<section class="box c-rose"><h2><span class="n">7</span>Feature et 3D</h2><div class="item"><p class="q">Interroger une <span class="hl">feature</span></p><p class="note">La Feature Information affiche les attributs utilisateur, les attributs de format, le système de coordonnées et la géométrie. Un attribut exposé apparaît dans le tableau ou dans la table de destination, un attribut non exposé sert à FME sans y apparaître. Pour une feature spatiale, on lit aussi le résumé de la géométrie : dimension, nombre de sommets, étendue.</p></div><div class="item"><p class="q">Passer en <span class="hl">3D</span></p><p class="note">Le fond de carte ne s'affiche pas en 3D. Les outils Orbit font tourner l'objet. Exemple du cours : transformer des emprises de bâti 2D en modèles 3D avec un nuage de points au format LAS, qui ne gère pas les attributs définis par l'utilisateur.</p></div></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Le writer refuse un feature type dont le type de géométrie n'est pas défini (le log indique NO_GEOMETRY). Règle geodb_point dans les paramètres du writer feature type.</p><pre class="code">FileGDB Writer: Feature class 'BusinessOwners' has shape type ''
+which is unknown to FME. Skipping feature class</pre><p class="note">Avec FME 25.0, aucune erreur ne s'affiche, mais le problème reste dans le workspace. Une erreur fatale arrête tout de suite le workspace et en provoque souvent d'autres.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Dataset, feature type, feature, attribut : fichier, feuille, ligne, colonne.</li><li>Le système de coordonnées est facultatif, sauf pour un fond de carte.</li><li>Un writer a besoin d'un type de géométrie, sinon il ignore la couche.</li><li>Plusieurs flux reliés à un même writer s'additionnent.</li><li>La Visual Preview et la Feature Information servent à vérifier le résultat.</li></ul></section>
+<p class="closing">Chaque workspace commence par lire, écrire et regarder : tu y es.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-basic/connect-to-data" target="_blank" rel="noopener">FME Form Basic</a> · EllaDesCartes</footer>
+</main>

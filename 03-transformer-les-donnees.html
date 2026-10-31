@@ -1,0 +1,219 @@
+<title>Transformer les données FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Transformer</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Lire le web, mapper le schéma, filtrer</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Transformer</dt><dd>Un objet du canevas qui <span class="hl">modifie, crée ou filtre</span> les features qui le traversent.</dd></div><div><dt>Éditer le schéma</dt><dd>Définir le schéma voulu sur les données écrites, en changeant les paramètres du feature type.</dd></div><div><dt>Mapper le schéma</dt><dd>Relier l'ancien schéma au nouveau avec des transformers.</dd></div><div><dt>Upstream / downstream</dt><dd>Plus tôt dans le flux de données / plus tard dans le flux.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Lire des données du web</h2><p class="note">Objectif du cours : lire des licences d'entreprises depuis une API et les écrire dans une geodatabase Esri.</p><div class="item"><p class="q">Ajouter un <span class="hl">Creator</span> et un <span class="hl">HTTPCaller</span></p><p class="note">Le HTTPCaller a besoin d'une entrée. Le Creator crée une feature vide qui déclenche l'appel. Relie le Creator au HTTPCaller.</p></div><div class="item"><p class="q">Régler le <span class="hl">HTTPCaller</span></p><pre class="code">Méthode : GET
+Response body encoding : system default (fme-system)</pre><p class="note">Colle l'URL. L'encodage garantit que le JSON est lu comme du texte et non comme un fichier binaire. Le bouton Send Test Request teste l'appel.</p></div><div class="item"><p class="q">Lire la <span class="hl">réponse</span></p><p class="note">Le JSON est stocké dans l'attribut du corps de la réponse. Un statut HTTP 200 signifie que l'appel a réussi.</p></div><div class="item"><p class="q">Ajouter un <span class="hl">JSONFragmenter</span></p><p class="note">Il découpe chaque entrée du tableau JSON en une feature. Avec Flatten Query Result into Attributes sur Yes, la structure imbriquée du JSON devient des colonnes. Les attributs obtenus sont non exposés, car FME exige un schéma fixe.</p></div><div class="item"><p class="q">Ajouter un <span class="hl">AttributeExposer</span></p><pre class="code">Import from Cache</pre></div><p class="note">Pour écrire du SQL ou du Python, utilise DatabaseQuerier ou PythonCaller. L'AI Assist aide à écrire une expression régulière. Le FeatureReader sait aussi exécuter des requêtes sur les bases SQL ou Cypher : choisis Custom Query dans Read Criteria By, les features sortent par le port Generic.</p></section>
+<section class="box c-mint"><h2><span class="n">3</span>Créer des points</h2><div class="item"><p class="q">Ajouter un <span class="hl">VertexCreator</span></p><pre class="code">X Value = longitude
+Y Value = latitude</pre><p class="note">Il passe d'un tableau à une géométrie de points.</p></div><div class="item"><p class="q">Repérer le <span class="hl">problème</span> de coordonnées</p><p class="note">Après le lancement, les points ne tombent pas sur le fond de carte. La vue graphique indique que des features n'ont pas pu être reprojetées et que le système vaut Unknown.</p></div><div class="item"><p class="q"><span class="hl">Régler</span> le système de coordonnées</p><p class="note">Utilise le paramètre du VertexCreator. S'il n'existe pas dans ta version, utilise CoordinateSystemSetter si tu connais le système, ou Reprojector si tu dois le changer.</p></div><div class="item"><p class="q">Ajouter le <span class="hl">writer</span></p><p class="note">Esri Geodatabase (File Geodb Open API), avec Overwrite Existing Geodatabase pour relancer plusieurs fois. Ajoute des bookmarks et renomme les transformers si besoin.</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Éditer et mapper le schéma</h2><div class="item"><p class="q">Voir le schéma du <span class="hl">writer</span></p><p class="note">Double-clique sur le writer feature type. Deux options : Automatic (le schéma de la source) ou Manual (tu définis la destination, puis tu adaptes les features avec des transformers).</p></div><div class="item"><p class="q"><span class="hl">Éditer</span> les attributs du writer</p><p class="note">Supprimer tous les attributs, les déplacer avec les flèches, les renommer. Au lancement, les données manquent : il faut maintenant mapper la source vers la destination.</p></div><div class="item"><p class="q"><span class="hl">Mapper</span> avec un AttributeManager</p><p class="note">Il crée des attributs, renomme, change l'ordre, fixe des valeurs. Active le mode automatique du writer pour une sortie dynamique qui suit l'AttributeManager.</p></div><div class="item"><p class="q">Lire les <span class="hl">triangles</span> du writer</p><p class="note">Rouge : l'attribut existe sur le writer mais pas sur les features entrantes, sans erreur mais sans valeur. Jaune : un attribut du reader n'est relié à aucun writer, il n'apparaîtra pas. Vert : l'attribut est connecté.</p></div><p class="note">Les paramètres d'un transformer sont codés par couleur : rouge à renseigner obligatoirement, jaune avec une valeur par défaut à relire, bleu à relire ou à régler.</p></section>
+<section class="box c-sky"><h2><span class="n">5</span>Créer et déboguer efficacement</h2><div class="item"><p class="q">Le <span class="hl">feature caching</span></p><p class="note">Mode d'édition du menu Run, activé par défaut. Un cache local est stocké sur chaque port de sortie : tu consultes et compares les données partout dans le workspace. Tu peux le désactiver dans le menu Run.</p></div><div class="item"><p class="q">Les <span class="hl">runs partiels</span></p><pre class="code">Run from this
+Run Just this
+Run To this
+Run between selected</pre><p class="note">Ils lancent seulement une section du workspace. Un clic droit permet de vider le feature cache.</p></div></section>
+<section class="box c-mint"><h2><span class="n">6</span>Trouver le bon transformer</h2><dl><div><dt>Quick Add</dt><dd>Sur le canevas.</dd></div><div><dt>Transformer Gallery</dt><dd>Classée par catégories.</dd></div><div><dt>Transformer Reference Guide</dt><dd>Extraits de l'aide qui expliquent les cas d'usage.</dd></div><div><dt>AI Assist</dt><dd>Disponible depuis la version 2025.1.</dd></div></dl></section>
+<section class="box c-rose"><h2><span class="n">7</span>Filtrer par valeurs d'attribut</h2><div class="item"><p class="q">Retirer des licences avec un <span class="hl">AttributeFilter</span></p><p class="note">Exemple du cours : enlever les quatre valeurs de licences révoquées. Les valeurs sont écrites en dur et il faut ajouter un reader.</p></div><div class="item"><p class="q"><span class="hl">Tester</span> et <span class="hl">TestFilter</span></p><p class="note">Ils sont aussi écrits en dur : ce n'est pas une solution durable. Le Tester peut retirer une entreprise précise.</p></div><div class="item"><p class="q"><span class="hl">DatabaseJoiner</span></p><p class="note">Il filtre sans ajouter un reader pour lire l'une des bases.</p></div></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Un filtre aux valeurs écrites en dur (AttributeFilter, Tester, TestFilter) ne suit pas les données : si les données sources changent, tu dois mettre à jour le workspace.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Creator, puis HTTPCaller, puis JSONFragmenter pour lire une API.</li><li>Un VertexCreator crée des points, il faut ensuite régler le système de coordonnées.</li><li>Éditer le schéma définit la destination, mapper le relie à la source.</li><li>Les triangles rouge, jaune et vert du writer montrent l'état du mapping.</li><li>Le feature caching et les runs partiels accélèrent le débogage.</li></ul></section>
+<p class="closing">Un transformer à la fois : tu construis un flux solide.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-basic/transform-data" target="_blank" rel="noopener">FME Form Basic</a> · EllaDesCartes</footer>
+</main>
