@@ -1,0 +1,220 @@
+<title>Concepts spatiaux FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Données spatiales</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Concepts, coordonnées et reprojection</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Intégration de données spatiales</dt><dd>Tirer de la valeur des données en <span class="hl">automatisant des processus métier</span> et en analysant des motifs spatiaux.</dd></div><div><dt>Donnée spatiale</dt><dd>Elle donne l'<span class="hl">emplacement réel</span> des données : la géométrie, une liste de coordonnées sur un plan. Pour l'ordinateur, elle existe en deux types : vecteur et raster.</dd></div><div><dt>Coordonnée</dt><dd>Un point précis sur une ligne, une échelle ou une surface. Ce sont des valeurs numériques qui représentent un point sur la Terre, une donnée instrumentale.</dd></div><div><dt>Système de coordonnées</dt><dd>Un ensemble standard de conditions et de règles qui s'applique à toutes ses coordonnées.</dd></div><div><dt>Reprojeter</dt><dd>Traduire toutes les données pour qu'elles utilisent <span class="hl">un système de coordonnées standard</span>.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>L'analyse spatiale</h2><div class="item"><p class="q">À quoi ça sert</p><p class="note">Décrire, explorer et expliquer des motifs et des relations de topologie, de géographie et de géométrie. On répond à des questions sur les relations entre objets en filtrant, mesurant et superposant.</p></div><div class="item"><p class="q">Des <span class="hl">exemples</span></p><pre class="code">Filtrage
+Analyse d'itinéraire
+Analyse de clusters</pre></div></section>
+<section class="box c-mint"><h2><span class="n">3</span>Le système géographique</h2><div class="item"><p class="q">Un système <span class="hl">géographique</span> (GCS)</p><p class="note">Il en existe plus de 1000, pour coller le mieux possible à la surface de la Terre. Il repose sur un datum, des unités angulaires et un méridien d'origine.</p></div><div class="item"><p class="q">Le <span class="hl">datum</span></p><p class="note">Un cadre mathématique de référence qui approche la forme 3D de la Terre pour la mesure : sphère parfaite, ellipsoïde, forme aplatie. Il peut être décalé par rapport au centre de masse de la Terre pour mesurer plus précisément.</p></div><div class="item"><p class="q">Les <span class="hl">unités angulaires</span></p><pre class="code">DecimalDegrees
+DegreeMinutesSeconds
+DecimalMinutes</pre><p class="note">Elles décrivent l'angle d'un point de la surface autour du centre de la Terre.</p></div><div class="item"><p class="q">Le <span class="hl">méridien d'origine</span></p><p class="note">La ligne nord-sud qui indique 0° de longitude. Le plus courant est Greenwich.</p></div><div class="item"><p class="q">Sa <span class="hl">structure</span></p><p class="note">Une ellipsoïde (la surface de la Terre), un point central où se croisent les axes X, Y et Z, un méridien d'origine (il peut changer de position d'un système à l'autre), et la définition du nord, de l'est, du sud, de l'ouest et du haut. Les orientations sont fixées : la Terre est divisée en quadrants et les valeurs sont positives ou négatives selon l'éloignement de l'équateur et du méridien d'origine.</p></div><p class="note">Ce système n'est pas idéal pour l'analyse. Le plus courant est WGS 1984 (GPS) : très utile, mais il ne résout pas tous les problèmes de coordonnées.</p></section>
+<section class="box c-rose"><h2><span class="n">4</span>Le système projeté</h2><div class="item"><p class="q">Un système <span class="hl">projeté</span> (PCS)</p><p class="note">Les coordonnées sont bien plus faciles à utiliser une fois déplacées dans un système projeté. Une méthode de projection prend les coordonnées du système géographique et indique comment les dessiner sur une surface plane. Il utilise des unités linéaires, et non angulaires.</p></div><div class="item"><p class="q">La <span class="hl">distorsion</span></p><pre class="code">Surface
+Forme
+Distance
+Direction</pre><p class="note">Passer de la 3D à la 2D déforme l'image. Des algorithmes préservent certaines qualités, mais jamais ces quatre à la fois. Exemple : Mercator préserve la direction, utile pour la navigation maritime.</p></div><div class="item"><p class="q">Le système <span class="hl">local</span></p><p class="note">Il donne de la précision pour un lieu précis (administrations, équipes de chantier, géomètres), avec moins de distorsion.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Reprojeter avec FME</h2><div class="item"><p class="q">Ce que FME <span class="hl">permet</span></p><p class="note">Reprojeter vers l'un des 56000 systèmes de coordonnées ou vers un système personnalisé. Appliquer une projection à des données sans système défini. Intégrer plusieurs jeux de données de systèmes différents dans une sortie unique. Migrer d'un système ancien vers un plus récent.</p></div><div class="item"><p class="q"><span class="hl">Définir</span> le système</p><p class="note">On l'attribue à chaque reader et writer, avec le Navigator. Quand une feature arrive au writer avec un autre système que celui du writer, FME la reprojette tout seul pour que la sortie soit au bon endroit. FME conserve le système tout au long de la traduction.</p></div><div class="item"><p class="q"><span class="hl">Détection</span> automatique</p><p class="note">Certaines données (par exemple un shp) stockent leur système. Si le Navigator indique &lt;not set&gt;, FME le déduit du dataset source, sinon il vaut &lt;unknown&gt;.</p></div><div class="item"><p class="q">Où <span class="hl">reprojeter</span></p><p class="note">Sur le writer, juste avant l'écriture. Ou avec un transformer, à n'importe quel moment de la traduction : le plus populaire est le Reprojector.</p></div></section>
+<section class="box c-mint"><h2><span class="n">6</span>Les scénarios de reprojection</h2><p class="note">N veut dire non défini, S veut dire défini.</p><dl><div><dt>Dataset N, reader S, writer S</dt><dd>Reprojette du système du reader vers celui du writer.</dd></div><div><dt>Dataset S, reader N, writer S</dt><dd>Reprojette du système du dataset vers celui du writer.</dd></div><div><dt>Dataset N, reader N, writer S</dt><dd>Erreur : impossible de reprojeter sans système de dataset ou de reader.</dd></div><div><dt>Dataset S, reader S, writer S</dt><dd>Reprojette du système du reader vers celui du writer.</dd></div><div><dt>Dataset S, reader S, writer N</dt><dd>Pas de reprojection, sauf si le format l'exige (par exemple KML).</dd></div></dl><div class="item"><p class="q">L'<span class="hl">exercice</span></p><p class="note">Régler le système de coordonnées sur le reader, puis reprojeter avant d'utiliser un AreaOverlayer.</p></div></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Si ni le dataset ni le reader n'ont de système de coordonnées, FME ne peut pas reprojeter et s'arrête sur une erreur. Sans système sur le writer, il ne reprojette pas non plus, sauf si le format l'exige.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Une donnée spatiale, c'est une géométrie (des coordonnées) et des attributs.</li><li>Le système géographique est en angles, le système projeté en unités linéaires.</li><li>Projeter déforme : on ne garde jamais la surface, la forme, la distance et la direction à la fois.</li><li>FME reprojette automatiquement à l'arrivée sur le writer.</li><li>Sans système sur le dataset ni sur le reader, la reprojection est impossible.</li></ul></section>
+<p class="closing">Un bon système de coordonnées, et tes couches se superposent enfin.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/integrate-spatial-data/learn-spatial-data-concepts" target="_blank" rel="noopener">Integrate Spatial Data</a> · EllaDesCartes</footer>
+</main>
