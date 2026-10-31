@@ -1,0 +1,217 @@
+<title>Archives et web FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Archives et web</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Lire et écrire des zip et des données en ligne</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Archive</dt><dd>Un fichier qui stocke des jeux de données à traiter <span class="hl">comme une seule unité</span>.</dd></div><div><dt>Web connection</dt><dd>Une connexion à un service web, créée une fois et réutilisable dans les dialogues de lecture.</dd></div><div><dt>Connector transformer</dt><dd>Un transformer qui <span class="hl">copie un fichier</span> depuis ou vers un service web, sans lire les données lui-même.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Lire et écrire des archives</h2><div class="item"><p class="q">Les formats <span class="hl">archive</span></p><pre class="code">7z, 7zip, rar, rvz, tar, tar.bz2, tar.gz, tgz, zip</pre><p class="note">Les readers et writers savent travailler avec des fichiers compressés. Ça marche pour les jeux de données basés sur un fichier comme sur un dossier.</p></div><div class="item"><p class="q">Les fichiers <span class="hl">compressés</span> seuls</p><pre class="code">bz2
+gz</pre></div><div class="item"><p class="q">Écrire un <span class="hl">zip</span></p><p class="note">Le plus simple : écrire l'extension .zip dans le dataset de sortie, ou utiliser le bouton à côté du dataset. Avec TCL ou Python, on peut ensuite retrouver le fichier écrit pour le déplacer ou le téléverser.</p></div></section>
+<section class="box c-mint"><h2><span class="n">3</span>Lire un jeu de données web</h2><div class="item"><p class="q">La <span class="hl">sélection d'URL</span> simple</p><p class="note">Le plus simple : mettre l'URL dans le paramètre du dataset source. L'astuce est de forcer le service à donner un lien direct plutôt que son interface. Pour Dropbox, on force le paramètre dl à 1. Un dossier doit être compressé en un seul zip pour que FME le lise depuis le web. Si une authentification est nécessaire, les readers ont un paramètre pour ça.</p></div><p class="note">C'est la méthode la plus simple, mais pas la meilleure. Seul un reader peut utiliser une URL, un writer ne peut pas écrire vers une URL.</p></section>
+<section class="box c-rose"><h2><span class="n">4</span>Les web connections</h2><div class="item"><p class="q">Les <span class="hl">créer</span></p><p class="note">Utilities, FME Options, Web Connections. Les plus courantes : Amazon S3, Autodesk A360, Box, Dropbox, FME Flow, Google Drive, HDFS, Microsoft OneDrive. Il faut s'authentifier à chaque nouveau service. Les connexions sont ensuite accessibles depuis le dialogue Add Reader ou le FeatureReader.</p></div><div class="item"><p class="q">Les mises à jour</p><p class="note">Les packages FME permettent de mettre à jour les web connections en dehors du cycle de sortie annuel de FME.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Les connector transformers</h2><div class="item"><p class="q">Leur <span class="hl">rôle</span></p><p class="note">Ils copient un fichier choisi et ajoutent son contenu dans un attribut (par exemple du XML), ou le téléchargent sur le disque local. Ils peuvent aussi téléverser ou supprimer un fichier. Un Creator peut déclencher la lecture.</p></div><div class="item"><p class="q">Ce n'est <span class="hl">pas</span> fait pour lire</p><p class="note">Lire les données reste le rôle des readers. On s'en sert pour télécharger, pour récupérer une liste de fichiers et les lire avec un FeatureReader, et surtout pour envoyer des données écrites vers le web.</p></div><div class="item"><p class="q">Écrire vers le <span class="hl">web</span></p><p class="note">Les writers n'ont pas l'option de sélection de fichier depuis le web. La meilleure solution : écrire avec un FeatureWriter, puis utiliser un connector transformer pour transférer le résultat.</p></div></section>
+<section class="box c-mint"><h2><span class="n">6</span>Exercice : neige et routes</h2><div class="item"><p class="q">Le <span class="hl">scénario</span></p><p class="note">Joindre des données de chute de neige à des routes, puis écrire le résultat sur un FTP pour d'autres utilisateurs.</p></div><div class="item"><p class="q">Les <span class="hl">étapes</span></p><pre class="code">Reader Autocad avec l'URL en source
+DatabaseJoiner pour lire l'Excel et le joindre
+FeatureWriter vers un zip
+FTPCaller connecté au FeatureWriter</pre><p class="note">Le nom du fichier peut se construire avec l'attribut _dataset du FeatureWriter, @ReplaceRegularExpression et @ReplaceString. Dans l'URL, @UUID() génère un emplacement unique à chaque exécution : ftp://ftp.safe.com/incoming/training/@UUID()RoadSnowfall.zip</p></div><p class="note">Le KMLStyler peut préparer le KML pour la visualisation.</p></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Les connector transformers ne sont pas des readers. Pour lire de vraies données sources, passe par un reader ou un FeatureReader.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Écrire .zip dans le dataset suffit à créer un zip.</li><li>Un reader peut lire une URL, mais un writer ne peut pas écrire vers une URL.</li><li>Les web connections se créent dans FME Options et servent aux readers et au FeatureReader.</li><li>Pour envoyer des données vers le web : FeatureWriter, puis connector transformer.</li><li>@UUID() évite d'écraser un fichier déjà présent sur le serveur.</li></ul></section>
+<p class="closing">Un zip, un lien, un connecteur : tes données voyagent toutes seules.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-advanced/read-and-write-archive-and-web-formats-2025-1" target="_blank" rel="noopener">FME Form Advanced</a> · EllaDesCartes</footer>
+</main>

@@ -1,0 +1,219 @@
+<title>Concevoir pour la performance FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Concevoir vite</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Filtrer tôt, alléger, séparer dev et production</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Méthodologie de performance</dt><dd>Configurer un workspace pour qu'il tourne <span class="hl">efficacement</span> et fasse gagner du temps.</dd></div><div><dt>Error trapping</dt><dd>Concevoir le workspace pour que des données inattendues ne le fassent pas échouer.</dd></div><div><dt>Feature flag</dt><dd>Un paramètre utilisateur qui détourne les données pour activer ou non une partie du workspace.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>Filtrer et alléger</h2><div class="item"><p class="q">Filtrer <span class="hl">en entrée</span></p><p class="note">Filtrer les données en les lisant. Tout lire puis jeter coûte en performance. Le paramètre WHERE clause existe pour beaucoup de formats. Le FeatureReader ou le DatabaseQuerier restreignent aussi les données à la lecture.</p></div><div class="item"><p class="q">Les <span class="hl">feature types</span> en trop</p><p class="note">À l'ajout d'un reader, ne garder que les feature types utiles (et un canevas propre). Paramètres, Features to Read, Feature Types to Read : on peut le lier à un paramètre utilisateur avec une liste de choix.</p></div><div class="item"><p class="q">Les <span class="hl">attributs et listes</span></p><p class="note">Les attributs absents du schéma de sortie ne servent à rien. Évite Merge attributes ou Generate list quand ce n'est pas nécessaire, et pour une liste, choisis le minimum d'attributs.</p></div></section>
+<section class="box c-mint"><h2><span class="n">3</span>Piéger les erreurs</h2><div class="item"><p class="q">Les <span class="hl">outils</span></p><pre class="code">Filter, Tester : test simple ou plus complexe (a une valeur)
+Logger : messages d'information, d'avertissement et d'erreur dans le log
+Terminator : message d'erreur personnalisé
+PythonCaller : port &lt;Rejected&gt; (reject_feature(), FeatureProcessor)</pre><p class="note">Plus complexe : un framework de validation et de test d'attributs (FME test framework, rTest).</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Authoring contre production</h2><div class="item"><p class="q">Deux <span class="hl">étapes</span></p><p class="note">On crée et on débogue un workspace dans FME Workbench, souvent en l'exécutant sur place. La version de production est différente : ce qui aide à créer et déboguer ralentit la traduction.</p></div><div class="item"><p class="q">Logger et <span class="hl">Inspector</span></p><p class="note">Le Logger écrit dans le log, l'Inspector envoie les données au Data Inspector. À éviter en production : inutiles et coûteux, surtout le Data Inspector. Sur FME Flow, l'Inspector est ignoré. On les retrouve en filtrant dans Build, Transformers, Remove Transformers.</p></div><div class="item"><p class="q">Le <span class="hl">data caching</span></p><p class="note">Gros impact sur la performance, inutile en production. Il n'affecte pas un workspace sur FME Flow. Activé ou désactivé via le menu du workbench (pas stocké dans le fichier).</p></div><div class="item"><p class="q">Les parties <span class="hl">désactivées</span></p><p class="note">Une partie désactivée ou isolée pour tester diffère de la production : il vaut mieux la ranger dans un workspace séparé ou une version séparée. Pas d'impact réel sur le flux, il suffit de la regrouper. Pour une partie inutile, un paramètre utilisateur détourne les données (feature flag).</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Exercice : la marchabilité</h2><div class="item"><p class="q">Le <span class="hl">sujet</span></p><p class="note">Calculer la « walkability » de chaque adresse de Vancouver : la facilité d'accès aux services à pied.</p></div><div class="item"><p class="q">Les <span class="hl">étapes</span></p><pre class="code">Enregistrer en template avec les data caches pour voir la taille du cache
+AttributeKeeper pour retirer les attributs et listes inutiles
+Décocher les listes générées par l'Aggregator
+Supprimer le feature type lu mais jamais utilisé
+Réduire un bookmark pour éviter le cache en trop</pre><p class="note">Un transformer dont on n'a pas besoin d'inspecter la sortie est caché dans un bookmark réduit. File, Save as Template, cocher include data caches.</p></div></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Garde un Logger ou un Inspector en production et tu paies deux fois : temps d'exécution, et rien d'utile en retour.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Filtre le plus tôt possible, dès la lecture.</li><li>Retire feature types, attributs et listes dont la sortie n'a pas besoin.</li><li>Piège les erreurs avec Tester, Logger, Terminator ou le port &lt;Rejected&gt;.</li><li>En production, retire Logger et Inspector et coupe le data caching.</li><li>Un bookmark réduit évite du cache inutile.</li></ul></section>
+<p class="closing">Un workspace rapide, c'est d'abord un workspace qui lit peu.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-advanced/design-for-performance-2025-1" target="_blank" rel="noopener">FME Form Advanced</a> · EllaDesCartes</footer>
+</main>
