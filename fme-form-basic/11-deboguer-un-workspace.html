@@ -1,0 +1,218 @@
+<title>Déboguer un workspace FME</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=LXGW+WenKai+Mono+TC&display=swap">
+<style>
+/* Concept : fiche de synthèse sur papier à carreaux lavande, un bloc par section, rubans pastel numérotés. Thème clair unique. */
+:root {
+  --bg: #f8f7fc;
+  --grid: #ebe8f3;
+  --paper: #fffdff;
+  --ink: #2c2447;
+  --muted: #6d6489;
+  --accent: #7150c6;
+  --line: #d6d0e6;
+  --violet-soft: #b9a6ee;
+  --lav: #e5dbfb;
+  --sky: #d9e8f8;
+  --rose: #fadbe7;
+  --peach: #fde1d3;
+  --mint: #d8f0e6;
+  --code-bg: #f5f4f9;
+  --font-body: "LXGW WenKai TC", "Kaiti TC", "STKaiti", "KaiTi", serif;
+  --font-title: "LXGW WenKai Mono TC", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+p, h1, h2, dl, dd, dt, ul, pre { margin: 0; padding: 0; }
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  font-size: 17px;
+  line-height: 1.65;
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* En-tête */
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.title-row { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+.tape {
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--peach);
+  padding: 2px 14px;
+  border-radius: 3px;
+  transform: rotate(-1.5deg);
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10.5vw, 3rem);
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, var(--lav) 60%);
+  padding-inline: 6px;
+  min-width: 0;
+}
+.sub { color: var(--accent); font-size: clamp(11px, 3.2vw, 18px); white-space: nowrap; max-width: 100%; }
+.doodle { width: 40px; height: 56px; flex: none; overflow: visible; }
+.doodle.r g:nth-of-type(1) .sp { animation-delay: 1.4s; }
+.doodle.r g:nth-of-type(2) .sp { animation-delay: 1.9s; }
+.doodle.r g:nth-of-type(3) .sp { animation-delay: 2.3s; }
+.doodle .sp { fill: var(--accent); transform-box: fill-box; transform-origin: center; animation: twinkle 2.8s ease-in-out infinite; }
+.doodle .soft { fill: var(--violet-soft); }
+.doodle g:nth-of-type(2) .sp { animation-delay: 0.5s; }
+.doodle g:nth-of-type(3) .sp { animation-delay: 1.1s; }
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.78); }
+}
+@media (prefers-reduced-motion: reduce) { .doodle .sp { animation: none; } }
+
+/* Blocs */
+.box {
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.c-lav { --tint: var(--lav); }
+.c-sky { --tint: var(--sky); }
+.c-rose { --tint: var(--rose); }
+.c-peach { --tint: var(--peach); }
+.c-mint { --tint: var(--mint); }
+
+h2 {
+  align-self: flex-start;
+  background: var(--tint);
+  border-radius: 8px;
+  padding: 4px 12px;
+  transform: rotate(-0.7deg);
+  margin-left: -4px;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+h2 .n { margin-right: 6px; color: var(--accent); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tint) 58%); }
+.q { color: var(--ink); }
+.note { color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Définitions */
+dl { display: flex; flex-direction: column; gap: 12px; }
+dt { font-family: var(--font-title); font-size: 14px; color: var(--accent); }
+dd { margin-top: 2px; }
+
+/* Lignes d'exemples */
+.item { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.item + .item { border-top: 1px dashed var(--line); padding-top: 14px; }
+.code {
+  display: block;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: var(--font-title);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.code .c { color: var(--muted); }
+code {
+  font-family: var(--font-title);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Schéma des index (exemple, à retirer si inutile) */
+.index-map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; font-family: var(--font-title); }
+.index-map .top, .index-map .bot { font-size: 13px; line-height: 1.5; color: var(--accent); }
+.index-map .bot { color: var(--muted); }
+.index-map .cell { background: var(--paper); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+.map-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.map-legend span:first-child { color: var(--accent); }
+
+/* À retenir */
+.recap { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.recap li { position: relative; padding-left: 28px; }
+.recap li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px; background: var(--accent); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+.closing {
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  color: var(--accent);
+  text-wrap: balance;
+  background: var(--paper);
+}
+footer { font-size: 14px; color: var(--muted); text-align: center; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  .box { padding: 14px; }
+  .doodle { width: 32px; height: 45px; }
+}
+</style>
+
+<main class="sheet">
+  <header>
+    <p class="tape">FME</p>
+    <div class="title-row"><svg class="doodle" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(24 18) scale(1.5)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(10 40) scale(0.9)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 47) scale(0.6)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg><h1>Déboguer</h1><svg class="doodle r" viewBox="0 0 40 56" aria-hidden="true">
+        <g transform="translate(16 38) scale(1.4)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(30 14) scale(0.8)"><path class="sp soft" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+        <g transform="translate(8 11) scale(0.55)"><path class="sp" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z"/></g>
+      </svg></div>    <p class="sub">Trouver et corriger les problèmes</p>
+  </header>
+<section class="box c-lav"><h2><span class="n">1</span>Les définitions</h2><dl><div><dt>Débogage</dt><dd>Déterminer <span class="hl">si un problème a eu lieu</span>, puis le retrouver.</dd></div><div><dt>Post-mortem</dt><dd>Déboguer un processus après sa fin pour trouver la cause d'un échec fatal.</dd></div><div><dt>Log spatial</dt><dd>Un dataset (workspace.ffs) avec toutes les features citées dans le log, en plus du fichier texte workspace.log.</dd></div></dl></section>
+<section class="box c-sky"><h2><span class="n">2</span>L'ordre du débogage</h2><div class="item"><p class="q">Les <span class="hl">quatre étapes</span></p><p class="note">1. Chercher les problèmes : le log (avertissements et erreurs) et le dataset de sortie.<br>2. Localiser le problème : les nombres de features sur les connexions et les données aux étapes clés.<br>3. Déterminer le problème : les paramètres du reader, du writer et des transformers, et le workspace en mode feature debug.<br>4. Si tu ne trouves pas, faire un post-mortem avec l'option de tracing (débogage interactif).</p></div><div class="item"><p class="q">Un <span class="hl">exercice</span> type</p><p class="note">1. Vérifier la source, hors FME.<br>2. Vérifier le reader.<br>3. Vérifier transformer par transformer.<br>4. Vérifier le writer en dernier : ouvre les données dans un éditeur de texte ou dans Excel pour savoir si le problème vient de l'écriture et non de la visualisation.</p></div></section>
+<section class="box c-mint"><h2><span class="n">3</span>Lire le log</h2><dl><div><dt>Error</dt><dd>Un problème a arrêté le traitement de FME.</dd></div><div><dt>Warning</dt><dd>En bleu, avec WARN. Le problème est parfois mineur : FME termine la traduction, mais mieux vaut vérifier.</dd></div><div><dt>Information</dt><dd>INFORM : indique si la traduction a bien fonctionné.</dd></div><div><dt>Statistics</dt><dd>Des chiffres sur la transformation.</dd></div></dl><p class="note">Clique sur le nom du transformer dans le log pour zoomer sur la source du problème.</p><div class="item"><p class="q">Le <span class="hl">log spatial</span></p><p class="note">Il se remplit avec les features rejetées quand Reader/Writer Redirect est activé (Navigator, Workspace Parameters), ou quand le Logger est réglé sur Log and record. Ouvre-le avec le FME Inspector ou la Visual Preview.</p></div></section>
+<section class="box c-rose"><h2><span class="n">4</span>Personnaliser et filtrer le log</h2><div class="item"><p class="q">Les <span class="hl">horodatages</span></p><p class="note">Tools, FME Options, Translation, réglage Log Timestamp Information : date absolue, heure absolue, temps cumulé, temps écoulé pour cette étape, type de message. Les horodatages repèrent les sections lentes.</p></div><div class="item"><p class="q">Le <span class="hl">log debug</span></p><p class="note">Il enregistre davantage d'informations : active-le quand une erreur a déjà eu lieu et que tu cherches des détails, puis désactive-le (les fichiers de log grossissent). Il reste dans le workspace même quand tu le passes à quelqu'un.</p></div><div class="item"><p class="q"><span class="hl">Filtrer</span> le log</p><p class="note">Avec les boutons. Les options FME réduisent aussi la taille du log, au prix d'un historique restreint de la traduction.</p></div><div class="item"><p class="q">Exercice : un problème d'<span class="hl">encodage</span></p><p class="note">Lance, va dans la section des avertissements du log et agis selon le message : vérifie l'encodage du writer dans le Navigator.</p></div></section>
+<section class="box c-sky"><h2><span class="n">5</span>Sorties et nombres de features</h2><div class="item"><p class="q"><span class="hl">Inspecter</span> la sortie</p><pre class="code">Format
+Schéma : bonnes couches, catégories, classes ?
+Géométrie : correcte ?
+Symbologie
+Attributs : tous présents ?
+Quantité : bon nombre ?
+Résultat : la transformation est-elle celle attendue ?</pre><p class="note">Même sans avertissement ni erreur, les sorties peuvent être fausses. Utilise la Visual Preview ou l'application de destination.</p></div><div class="item"><p class="q">Les <span class="hl">nombres de features</span></p><p class="note">Ils indiquent à quel port le problème apparaît. Une feature qui disparaît est rejetée : consulte fme_rejection_code pour voir le problème.</p></div><div class="item"><p class="q">Les <span class="hl">étapes clés</span></p><p class="note">Le workspace lit mal les données, les transforme mal, les écrit mal, ou une autre application les interprète mal.</p></div><div class="item"><p class="q">Exercice : <span class="hl">Unexpected input</span></p><p class="note">Ce message apparaît quand FME lit des données absentes du workspace (par exemple un KML lu en entier alors qu'un seul feature type est choisi). Dans l'exemple du cours, le JSONExtractor posait problème car une entité avait une géométrie nulle : ajoute un Tester qui exclut les features à géométrie nulle.</p></div><p class="note">En cas de problème de système de coordonnées, mieux vaut reprojeter.</p></section>
+<section class="box c-peach"><h2>Le piège</h2><p class="note">Un workspace qui se termine sans avertissement ni erreur peut produire des sorties fausses. Vérifie toujours le résultat.</p></section>
+<section class="box c-lav"><h2>À retenir</h2><ul class="recap"><li>Ordre : chercher, localiser, déterminer, puis post-mortem si besoin.</li><li>Un message Error arrête FME, un Warning demande de vérifier.</li><li>Les horodatages du log repèrent les sections lentes.</li><li>Les nombres de features et le port Rejected localisent le problème.</li><li>Vérifie la source, le reader, les transformers, puis le writer.</li></ul></section>
+<p class="closing">Déboguer, c'est enquêter dans le bon ordre : tu as la méthode.</p>
+<footer>Fiche issue du cours <a href="https://academy.safe.com/path/fme-form-basic/debug-workspaces" target="_blank" rel="noopener">FME Form Basic</a> · EllaDesCartes</footer>
+</main>
